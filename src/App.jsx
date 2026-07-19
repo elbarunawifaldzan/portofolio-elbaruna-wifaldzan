@@ -17,7 +17,7 @@ import Contact from './sections/Contact'
 export default function App() {
   const [loading, setLoading] = useState(true)
   const [dark, setDark] = useState(false)
-  const [lang, setLang] = useState('id')
+  const [lang, setLang] = useState('en')
 
   const handleLoaderDone = useCallback(() => setLoading(false), [])
 

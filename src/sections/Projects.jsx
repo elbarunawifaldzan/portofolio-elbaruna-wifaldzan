@@ -58,7 +58,7 @@ export default function Projects({ dark }) {
       </motion.div>
 
       {/* Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((project, index) => (
           <ProjectCard key={project.name} project={project} index={index} dark={dark} />
         ))}

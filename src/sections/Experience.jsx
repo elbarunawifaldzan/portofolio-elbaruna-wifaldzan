@@ -38,7 +38,7 @@ export default function Experience({ dark }) {
   return (
     <section id="experience" className="relative py-10 md:py-14 px-6 md:px-12 lg:px-20 max-w-screen-xl mx-auto overflow-hidden">
       <ShapeGrid dark={dark} />
-      <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-start">
+      <div className="relative z-10 grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
 
         {/* Portrait */}
         <motion.div
@@ -57,7 +57,7 @@ export default function Experience({ dark }) {
             <div className={`absolute inset-0 bg-gradient-to-t ${fade} via-transparent to-transparent`} />
           </div>
           <div className="absolute bottom-8 left-6 right-6">
-            <div className={`border rounded-2xl p-5 ${cardBg}`}>
+            <div className={`border rounded-2xl p-4 md:p-5 ${cardBg}`}>
               <p className="label mb-1">Currently</p>
               <p className={`text-sm font-bold uppercase tracking-wide ${cardTitle}`}>Full Stack Developer</p>
               <p className={`text-xs mt-0.5 ${muted}`}>Freelance · 2024 — Present</p>
@@ -70,38 +70,34 @@ export default function Experience({ dark }) {
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ delay: 0.1 }}
-            className={`text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none mb-12 ${t}`}
+            className={`text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none mb-10 md:mb-12 ${t}`}
           >
             Experience
           </motion.h2>
 
           <div className="relative">
-            {/* Scroll-animated vertical line */}
             <AnimatedLine dark={dark} />
-
-            <div className="space-y-10 pl-8">
+            <div className="space-y-8 md:space-y-10 pl-8">
               {experiences.map((exp, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -15, y: 20 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: true, amount: 0.8 }}
+                  viewport={{ once: true, amount: 0.5 }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative"
                 >
-                  {/* Dot — fills when item enters view */}
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true, amount: 0.8 }}
+                    viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.3, delay: i * 0.1 }}
                     className={`absolute -left-[34px] top-1.5 w-3 h-3 rounded-full border-2 transition-colors duration-300 ${
                       i === 0 ? dotActive : dotInactive
                     }`}
                   />
-
                   <p className="label mb-1">{exp.year}</p>
-                  <h3 className={`text-base font-bold uppercase tracking-wider mb-0.5 ${t}`}>
+                  <h3 className={`text-sm md:text-base font-bold uppercase tracking-wider mb-0.5 ${t}`}>
                     {exp.position}
                   </h3>
                   <p className={`text-[11px] font-semibold tracking-widest uppercase mb-2 ${muted}`}>

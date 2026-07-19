@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import UnicornScene from 'unicornstudio-react'
 import { useT } from '../i18n/LangContext'
 
@@ -9,11 +10,29 @@ export default function About({ dark }) {
   const muted = dark ? 'text-gray-500' : 'text-gray-400'
   const border = dark ? 'border-white/[0.07]' : 'border-black/[0.07]'
   const valueText = dark ? 'text-gray-300' : 'text-gray-700'
+  const sceneWrapperRef = useRef(null)
+  const sceneInnerRef = useRef(null)
+
+  // Resize observer agar scene selalu mengisi container
+  useEffect(() => {
+    const wrapper = sceneWrapperRef.current
+    const inner   = sceneInnerRef.current
+    if (!wrapper || !inner) return
+
+    const update = () => {
+      const scale = wrapper.offsetWidth / 1440
+      inner.style.transform = `scale(${scale})`
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(wrapper)
+    return () => ro.disconnect()
+  }, [])
 
   return (
     <section id="about" className="py-10 md:py-14 px-6 md:px-12 lg:px-20 max-w-screen-xl mx-auto">
 
-      <div className="grid lg:grid-cols-2 gap-16 items-start">
+      <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
         {/* Unicorn Studio Scene */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -22,28 +41,19 @@ export default function About({ dark }) {
           transition={{ duration: 0.8 }}
           className="relative w-full rounded-2xl overflow-hidden bg-black"
         >
-          {/* Scale wrapper — scene asli 1440x900, kita tampilkan proporsional */}
+          {/* Aspect ratio wrapper */}
           <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              paddingTop: `${(900 / 1440) * 100}%`, // aspect ratio 1440:900
-            }}
+            ref={sceneWrapperRef}
+            style={{ position: 'relative', width: '100%', paddingTop: `${(900 / 1440) * 100}%` }}
           >
             <div
+              ref={sceneInnerRef}
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
+                top: 0, left: 0,
                 width: '1440px',
                 height: '900px',
                 transformOrigin: 'top left',
-                transform: 'scale(var(--scene-scale))',
-              }}
-              ref={(el) => {
-                if (!el) return
-                const scale = el.parentElement.offsetWidth / 1440
-                el.style.setProperty('--scene-scale', scale)
               }}
             >
               <UnicornScene

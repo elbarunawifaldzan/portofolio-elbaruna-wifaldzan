@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { translations } from './translations'
 
-export const LangContext = createContext('id')
+export const LangContext = createContext('en')
 
 export function useLang() {
   return useContext(LangContext)

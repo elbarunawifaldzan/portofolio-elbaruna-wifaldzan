@@ -2,14 +2,14 @@ export const educations = [
   {
     degree: 'S1 Teknik Informatika',
     institution: 'Universitas Komputer Indonesia',
-    year: '2019 — 2025',
+    year: '',
     description: 'Fokus pada pengembangan perangkat lunak, algoritma, dan sistem informasi.',
     logo: '/img/logo_unikom.png',
   },
   {
     degree: 'Rekayasa Perangkat Lunak',
     institution: 'SMKN 1 Cipeundeuy',
-    year: 'Lulus 2019',
+    year: '',
     description: 'Jurusan Rekayasa Perangkat Lunak dengan fokus pada pemrograman dan pengembangan aplikasi.',
     logo: '/img/logo_smkn1cpd.png',
   },

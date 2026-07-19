@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { FiMail, FiGithub, FiLinkedin, FiInstagram, FiCheck, FiAlertCircle, FiLoader } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -6,15 +6,40 @@ import emailjs from '@emailjs/browser'
 import ParticlesBg from '../components/ParticlesBg'
 
 // ── EmailJS config ──────────────────────────────────────────
-// 1. Daftar di https://www.emailjs.com (gratis 200 email/bulan)
-// 2. Buat Service → dapat SERVICE_ID
-// 3. Buat Email Template → dapat TEMPLATE_ID
-//    Template variables: {{from_name}}, {{from_email}}, {{message}}, {{to_email}}
-// 4. Copy Public Key dari Account → API Keys
 const EMAILJS_SERVICE_ID  = 'service_zrgstic'
 const EMAILJS_TEMPLATE_ID = 'template_j4m7b7r'
 const EMAILJS_PUBLIC_KEY  = '8GbPrVEHZquMcahZv'
 // ────────────────────────────────────────────────────────────
+
+// ── Anti-spam config ────────────────────────────────────────
+const COOLDOWN_SECONDS  = 60        // detik antar pengiriman
+const MAX_SENDS_PER_DAY = 5         // batas kirim per hari
+const MIN_FILL_TIME_MS  = 3000      // minimal 3 detik mengisi form (anti-bot)
+const STORAGE_KEY       = 'contact_sends'
+
+function getStoredSends() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return []
+    const arr = JSON.parse(raw)
+    // Hapus data yang sudah lebih dari 24 jam
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000
+    return arr.filter((ts) => ts > cutoff)
+  } catch { return [] }
+}
+
+function recordSend() {
+  const arr = [...getStoredSends(), Date.now()]
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr))
+}
+
+// Sanitasi input: strip tag HTML & trim
+function sanitize(str) {
+  return str.replace(/<[^>]*>/g, '').trim()
+}
+
+// Validasi email format
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/
 
 const socials = [
   { icon: FiMail,      label: 'Email',     value: 'elbarunawifaldzan@gmail.com',        href: 'mailto:elbarunawifaldzan@gmail.com' },
@@ -25,14 +50,94 @@ const socials = [
 ]
 
 export default function Contact({ dark }) {
-  const formRef = useRef(null)
-  const [form, setForm]     = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState('idle')
+  const formRef     = useRef(null)
+  const formStartTs = useRef(null)               // kapan form mulai diisi
+  const [form, setForm]         = useState({ name: '', email: '', message: '' })
+  const [honeypot, setHoneypot] = useState('')   // anti-bot hidden field
+  const [status, setStatus]     = useState('idle')
+  const [cooldownLeft, setCooldownLeft] = useState(0)
+  const [spamMsg, setSpamMsg]   = useState('')
+
+  // Catat waktu form mulai disentuh
+  const handleFocus = () => {
+    if (!formStartTs.current) formStartTs.current = Date.now()
+  }
+
+  // Cooldown timer
+  useEffect(() => {
+    if (cooldownLeft <= 0) return
+    const id = setInterval(() => {
+      setCooldownLeft((s) => {
+        if (s <= 1) { clearInterval(id); return 0 }
+        return s - 1
+      })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [cooldownLeft])
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // 1. Honeypot: jika diisi, pasti bot
+    if (honeypot) {
+      setStatus('idle')
+      return
+    }
+
+    // 2. Cek waktu pengisian form terlalu cepat (bot)
+    const fillTime = Date.now() - (formStartTs.current || Date.now())
+    if (fillTime < MIN_FILL_TIME_MS) {
+      setSpamMsg('Anda mengisi form terlalu cepat. Tunggu sebentar.')
+      setStatus('error')
+      setTimeout(() => { setStatus('idle'); setSpamMsg('') }, 3000)
+      return
+    }
+
+    // 3. Rate limit: cek cooldown dari pengiriman terakhir
+    const sends = getStoredSends()
+    if (sends.length > 0) {
+      const lastSend = sends[sends.length - 1]
+      const elapsed  = (Date.now() - lastSend) / 1000
+      if (elapsed < COOLDOWN_SECONDS) {
+        const remaining = Math.ceil(COOLDOWN_SECONDS - elapsed)
+        setCooldownLeft(remaining)
+        setSpamMsg(`Tunggu ${remaining} detik sebelum mengirim lagi.`)
+        setStatus('error')
+        setTimeout(() => { setStatus('idle'); setSpamMsg('') }, 3500)
+        return
+      }
+    }
+
+    // 4. Rate limit: max kiriman per hari
+    if (sends.length >= MAX_SENDS_PER_DAY) {
+      setSpamMsg('Batas pengiriman harian (5x) tercapai. Coba lagi besok.')
+      setStatus('error')
+      setTimeout(() => { setStatus('idle'); setSpamMsg('') }, 4000)
+      return
+    }
+
+    // 5. Validasi format email
+    if (!EMAIL_REGEX.test(form.email)) {
+      setSpamMsg('Format email tidak valid.')
+      setStatus('error')
+      setTimeout(() => { setStatus('idle'); setSpamMsg('') }, 3000)
+      return
+    }
+
+    // 6. Sanitasi input sebelum dikirim
+    const cleanName    = sanitize(form.name)
+    const cleanEmail   = sanitize(form.email)
+    const cleanMessage = sanitize(form.message)
+
+    if (!cleanName || !cleanEmail || !cleanMessage) {
+      setSpamMsg('Semua field harus diisi.')
+      setStatus('error')
+      setTimeout(() => { setStatus('idle'); setSpamMsg('') }, 3000)
+      return
+    }
+
     setStatus('loading')
 
     try {
@@ -40,19 +145,23 @@ export default function Contact({ dark }) {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name:  form.name,
-          from_email: form.email,
-          message:    form.message,
+          from_name:  cleanName,
+          from_email: cleanEmail,
+          message:    cleanMessage,
           to_email:   'elbarunawifaldzan@gmail.com',
         },
         EMAILJS_PUBLIC_KEY
       )
+      recordSend()
+      formStartTs.current = null
       setStatus('success')
       setForm({ name: '', email: '', message: '' })
+      setCooldownLeft(COOLDOWN_SECONDS)
       setTimeout(() => setStatus('idle'), 4000)
     } catch (err) {
       console.error(err)
       setStatus('error')
+      setSpamMsg('')
       setTimeout(() => setStatus('idle'), 4000)
     }
   }
@@ -70,10 +179,10 @@ export default function Contact({ dark }) {
   const valueHover = dark ? 'text-gray-400 group-hover:text-white' : 'text-gray-500 group-hover:text-black'
 
   const btnLabel = {
-    idle:    'Send Message',
+    idle:    cooldownLeft > 0 ? `Tunggu ${cooldownLeft}s` : 'Send Message',
     loading: 'Sending...',
     success: 'Message Sent!',
-    error:   'Failed, Try Again',
+    error:   spamMsg ? 'Blocked' : 'Failed, Try Again',
   }
 
   const btnStyle = {
@@ -87,14 +196,14 @@ export default function Contact({ dark }) {
     <section id="contact" className="relative py-10 md:py-14 px-6 md:px-12 lg:px-20 max-w-screen-xl mx-auto overflow-hidden">
       {/* Particles background */}
       <ParticlesBg dark={dark} />
-      <div className="relative z-10 grid lg:grid-cols-2 gap-16">
+      <div className="relative z-10 grid lg:grid-cols-2 gap-10 md:gap-16">
 
         {/* Left */}
         <div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ delay: 0.1 }}
-            className={`text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none mb-8 ${t}`}
+            className={`text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none mb-6 md:mb-8 ${t}`}
           >
             Get In<br />Touch
           </motion.h2>
@@ -102,9 +211,9 @@ export default function Contact({ dark }) {
           <motion.p
             initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className={`text-base leading-relaxed max-w-xs mb-10 ${muted}`}
+            className={`text-sm md:text-base leading-relaxed max-w-xs mb-8 md:mb-10 ${muted}`}
           >
-            Punya proyek menarik atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.
+            Have an interesting project or want to collaborate? Feel free to reach out.
           </motion.p>
 
           <motion.div
@@ -136,6 +245,16 @@ export default function Contact({ dark }) {
           viewport={{ once: true }} transition={{ delay: 0.2 }}
           className="space-y-4"
         >
+          {/* Honeypot — hidden dari user, bot akan mengisi ini */}
+          <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', tabIndex: -1 }}>
+            <label htmlFor="website">Website</label>
+            <input
+              id="website" name="website" type="text"
+              value={honeypot} onChange={(e) => setHoneypot(e.target.value)}
+              autoComplete="off" tabIndex={-1}
+            />
+          </div>
+
           {[
             { name: 'name',  label: 'Name',  type: 'text',  placeholder: 'Your name' },
             { name: 'email', label: 'Email', type: 'email', placeholder: 'your@email.com' },
@@ -145,7 +264,7 @@ export default function Contact({ dark }) {
               <input
                 id={f.name} name={f.name} type={f.type}
                 placeholder={f.placeholder} value={form[f.name]}
-                onChange={handleChange} required
+                onChange={handleChange} onFocus={handleFocus} required
                 disabled={status === 'loading'}
                 className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-colors duration-200 ${inputBg}`}
               />
@@ -157,7 +276,7 @@ export default function Contact({ dark }) {
             <textarea
               id="message" name="message" rows={5}
               placeholder="Tell me about your project..."
-              value={form.message} onChange={handleChange} required
+              value={form.message} onChange={handleChange} onFocus={handleFocus} required
               disabled={status === 'loading'}
               className={`w-full border rounded-xl px-4 py-3 text-sm resize-none focus:outline-none transition-colors duration-200 ${inputBg}`}
             />
@@ -165,7 +284,7 @@ export default function Contact({ dark }) {
 
           <button
             type="submit"
-            disabled={status === 'loading' || status === 'success'}
+            disabled={status === 'loading' || status === 'success' || cooldownLeft > 0}
             className={`w-full inline-flex items-center justify-center gap-2 px-7 py-3
               text-[11px] font-semibold tracking-widest uppercase rounded-full transition-all duration-300
               ${btnStyle[status]}`}
@@ -194,7 +313,16 @@ export default function Contact({ dark }) {
               initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
               className="text-xs text-red-500 text-center tracking-wide"
             >
-              Gagal mengirim pesan. Pastikan EmailJS sudah dikonfigurasi.
+              {spamMsg || 'Gagal mengirim pesan. Pastikan EmailJS sudah dikonfigurasi.'}
+            </motion.p>
+          )}
+          {/* Cooldown info saat idle */}
+          {status === 'idle' && cooldownLeft > 0 && (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+              className="text-xs text-yellow-500 text-center tracking-wide"
+            >
+              Bisa kirim lagi dalam {cooldownLeft} detik.
             </motion.p>
           )}
         </motion.form>

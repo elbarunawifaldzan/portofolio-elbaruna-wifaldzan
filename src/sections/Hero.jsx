@@ -112,14 +112,13 @@ export default function Hero({ dark }) {
       <div className="relative flex flex-col items-center w-full min-h-screen pt-20 pb-4" style={{ zIndex: 3 }}>
 
         {/* Text content — top center */}
-        <div className="flex flex-col items-center text-center px-6 mb-2 md:mb-4">
-         
+        <div className="flex flex-col items-center text-center px-4 sm:px-6 mb-2 md:mb-4">
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className={`font-black leading-[0.85] tracking-tight
-              text-3xl md:text-4xl lg:text-5xl ${tc}`}
+            className={`font-black leading-[0.88] tracking-tight
+              text-2xl sm:text-3xl md:text-4xl lg:text-5xl ${tc}`}
           >
             I'm Elbaruna Wifaldzan
           </motion.h1>
@@ -140,13 +139,13 @@ export default function Hero({ dark }) {
             <motion.div
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}
-              className="flex flex-col justify-end w-[220px] pb-8 shrink-0"
+              className="flex flex-col justify-end w-[200px] xl:w-[220px] pb-8 shrink-0"
             >
               <span className={`text-5xl leading-none mb-2 ${dark ? 'text-white/40' : 'text-black/30'}`}>"</span>
-              <p className={`text-base leading-relaxed italic font-medium ${dark ? 'text-white' : 'text-black'}`}>
+              <p className={`text-sm xl:text-base leading-relaxed italic font-medium ${dark ? 'text-white' : 'text-black'}`}>
                 {tr('quote')}
               </p>
-              <p className={`text-sm font-bold tracking-widest uppercase mt-3 ${dark ? 'text-white' : 'text-black'}`}>
+              <p className={`text-xs xl:text-sm font-bold tracking-widest uppercase mt-3 ${dark ? 'text-white' : 'text-black'}`}>
                 — Kent Beck
               </p>
               <p className={`text-xs tracking-wide mt-1 ${dark ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -155,9 +154,9 @@ export default function Hero({ dark }) {
             </motion.div>
 
             {/* Image */}
-            <div className="relative w-full max-w-md xl:max-w-lg rounded-3xl shrink-0 mx-auto">
+            <div className="relative w-full max-w-sm xl:max-w-lg rounded-3xl shrink-0 mx-auto">
               <motion.img
-                src={dark ? '/img/Hero/Hero4.png' : '/img/Hero/Hero2.png'}
+                src={dark ? '/img/Hero/Hero4.png' : '/img/Hero/Hero3.png'}
                 alt="Elbaruna Wifaldzan"
                 className="w-full object-cover rounded-3xl"
                 animate={{ y: [0, -14, 0] }}
@@ -169,22 +168,55 @@ export default function Hero({ dark }) {
             <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.7 }}
-              className="flex flex-col justify-end w-[180px] pb-8 shrink-0 items-end text-right"
+              className="flex flex-col justify-end w-[160px] xl:w-[180px] pb-8 shrink-0 items-end text-right"
             >
-              <p className={`text-7xl font-black leading-none ${dark ? 'text-white' : 'text-black'}`}>4+</p>
-              <p className={`text-base font-bold tracking-widest uppercase mt-2 ${dark ? 'text-white' : 'text-black'}`}>Tahun</p>
-              <p className={`text-base font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Pengalaman</p>
-              <p className={`text-base font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Coding</p>
+              <p className={`text-6xl xl:text-7xl font-black leading-none ${dark ? 'text-white' : 'text-black'}`}>4+</p>
+              <p className={`text-sm font-bold tracking-widest uppercase mt-2 ${dark ? 'text-white' : 'text-black'}`}>Years</p>
+              <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Coding</p>
+              <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Experience</p>
               <div className={`w-8 h-px mt-4 ${dark ? 'bg-white/20' : 'bg-black/20'}`} />
             </motion.div>
           </div>
 
+          {/* Tablet layout (md–lg): image + stats side by side */}
+          <div className="hidden md:flex lg:hidden flex-col items-center w-full px-8 gap-6 pb-24">
+            <div className="flex items-end gap-6 w-full max-w-2xl mx-auto">
+              {/* Image */}
+              <div className="flex-1 rounded-2xl overflow-hidden">
+                <motion.img
+                  src={dark ? '/img/Hero/Hero4.png' : '/img/Hero/Hero3.png'}
+                  alt="Elbaruna Wifaldzan"
+                  className="w-full object-cover rounded-2xl"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
+                />
+              </div>
+              {/* Stats + Quote stacked */}
+              <div className="flex flex-col gap-4 w-[160px] shrink-0 pb-4">
+                <div className={`rounded-2xl p-4 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}>
+                  <p className={`text-5xl font-black leading-none ${dark ? 'text-white' : 'text-black'}`}>4+</p>
+                  <p className={`text-xs font-bold tracking-widest uppercase mt-1 ${dark ? 'text-white' : 'text-black'}`}>Years Coding</p>
+                  <p className={`text-xs font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Experience</p>
+                </div>
+                <div className={`rounded-2xl p-4 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}>
+                  <span className={`text-2xl leading-none ${dark ? 'text-white/30' : 'text-black/20'}`}>"</span>
+                  <p className={`text-[10px] leading-relaxed italic font-medium mt-1 ${dark ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {tr('quote')}
+                  </p>
+                  <p className={`text-[9px] font-bold tracking-widest uppercase mt-2 ${dark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    — Kent Beck
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Mobile layout: 1 kolom */}
-          <div className="lg:hidden flex flex-col items-center w-full px-4 gap-6 pb-24">
+          <div className="md:hidden flex flex-col items-center w-full px-4 gap-5 pb-24">
             {/* Image full width */}
-            <div className="w-full rounded-2xl overflow-hidden">
+            <div className="w-full max-w-xs mx-auto rounded-2xl overflow-hidden">
               <motion.img
-                src={dark ? '/img/Hero/Hero4.png' : '/img/Hero/Hero2.png'}
+                src={dark ? '/img/Hero/Hero4.png' : '/img/Hero/Hero3.png'}
                 alt="Elbaruna Wifaldzan"
                 className="w-full object-cover rounded-2xl"
                 animate={{ y: [0, -10, 0] }}
@@ -196,7 +228,7 @@ export default function Hero({ dark }) {
             <motion.div
               initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className={`w-full rounded-2xl p-5 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}
+              className={`w-full rounded-2xl p-4 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}
             >
               <span className={`text-3xl leading-none ${dark ? 'text-white/30' : 'text-black/20'}`}>"</span>
               <p className={`text-sm leading-relaxed italic font-medium mt-1 ${dark ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -214,13 +246,13 @@ export default function Hero({ dark }) {
             <motion.div
               initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              className={`w-full flex items-center justify-center gap-2 rounded-2xl p-5 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}
+              className={`w-full flex items-center justify-center gap-2 rounded-2xl p-4 border ${dark ? 'border-white/[0.07] bg-white/[0.03]' : 'border-black/[0.07] bg-black/[0.02]'}`}
             >
               <p className={`text-5xl font-black leading-none ${dark ? 'text-white' : 'text-black'}`}>4+</p>
               <div className="flex flex-col ml-3">
-                <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Tahun</p>
-                <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Pengalaman</p>
+                <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Years</p>
                 <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Coding</p>
+                <p className={`text-sm font-bold tracking-widest uppercase ${dark ? 'text-white' : 'text-black'}`}>Experience</p>
               </div>
             </motion.div>
           </div>
