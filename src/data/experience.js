@@ -2,19 +2,19 @@ export const experiences = [
   {
     position: 'Full Stack Developer',
     company: 'Freelance',
-    year: '2024 — Present',
+    year: 'Juni 2026 — Sekarang',
     description: 'Membangun berbagai aplikasi web untuk klien dari berbagai industri menggunakan React, Laravel, dan teknologi modern lainnya.',
   },
   {
-    position: 'Web Developer Intern',
+    position: 'Full Stack Web Developer',
     company: 'SEAMEO CECCEP',
-    year: '2023',
-    description: 'Mengembangkan platform event management untuk organisasi internasional dengan fitur registrasi dan manajemen peserta.',
+    year: 'November 2025 — Mei 2026',
+    description: 'Mengembangkan aplikasi SEAMEO CECCEP Event untuk organisasi internasional, mencakup fitur manajemen event, registrasi, dan pengelolaan peserta.',
   },
   {
-    position: 'Frontend Developer',
-    company: 'Project Collaboration',
-    year: '2022 — 2023',
-    description: 'Berkolaborasi dalam tim untuk membangun UI/UX modern menggunakan React dan Tailwind CSS.',
+    position: 'Full Stack Web Developer',
+    company: 'RS Mata Cicendo',
+    year: 'September 2022 — Oktober 2022',
+    description: 'Membangun aplikasi skrining pasien untuk mendukung alur pendaftaran dan pemeriksaan awal pasien di rumah sakit.',
   },
 ]

@@ -60,7 +60,7 @@ export default function Experience({ dark }) {
             <div className={`border rounded-2xl p-4 md:p-5 ${cardBg}`}>
               <p className="label mb-1">Currently</p>
               <p className={`text-sm font-bold uppercase tracking-wide ${cardTitle}`}>Full Stack Developer</p>
-              <p className={`text-xs mt-0.5 ${muted}`}>Freelance · 2024 — Present</p>
+              <p className={`text-xs mt-0.5 ${muted}`}>Freelance · Juni 2026 — Sekarang</p>
             </div>
           </div>
         </motion.div>
