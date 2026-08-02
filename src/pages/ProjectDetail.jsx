@@ -240,7 +240,9 @@ export default function ProjectDetail({ dark }) {
                   <FiExternalLink size={11} />
                 </a>
               )}
-              {project.live && (
+
+              {/* Live button — selalu tampil, disabled jika belum ada link */}
+              {project.live ? (
                 <a
                   href={project.live}
                   target="_blank"
@@ -257,6 +259,16 @@ export default function ProjectDetail({ dark }) {
                   </span>
                   <FiExternalLink size={11} />
                 </a>
+              ) : (
+                <div
+                  className={`flex items-center justify-between w-full border rounded-xl px-4 py-3 text-xs font-semibold tracking-widest uppercase cursor-not-allowed opacity-40 ${linkBtn} border`}
+                >
+                  <span className="flex items-center gap-2">
+                    <FiExternalLink size={14} />
+                    {project.category === 'Mobile Apps' ? 'Live Mobile' : 'Live Website'}
+                  </span>
+                  <span className="text-[9px] normal-case font-normal tracking-normal">Coming Soon</span>
+                </div>
               )}
             </div>
 
