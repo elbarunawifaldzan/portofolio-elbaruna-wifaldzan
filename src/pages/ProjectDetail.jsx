@@ -41,19 +41,7 @@ export default function ProjectDetail({ dark }) {
   return (
     <div className={`min-h-screen ${bg} transition-colors duration-300`}>
 
-      {/* ── Dot Grid background ── */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage: dark
-            ? 'radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px)'
-            : 'radial-gradient(circle, rgba(0,0,0,0.07) 2px, transparent 2px)',
-          backgroundSize: '28px 28px',
-          zIndex: 0,
-        }}
-      />
-
-      <div className="relative z-10 max-w-screen-lg mx-auto px-6 md:px-12 lg:px-20 pt-28 pb-24">
+      <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-20 pt-28 pb-24">
 
         {/* Back button */}
         <motion.div
@@ -265,7 +253,7 @@ export default function ProjectDetail({ dark }) {
                 >
                   <span className="flex items-center gap-2">
                     <FiExternalLink size={14} />
-                    Live Demo
+                    {project.category === 'Mobile Apps' ? 'Live Mobile' : 'Live Website'}
                   </span>
                   <FiExternalLink size={11} />
                 </a>

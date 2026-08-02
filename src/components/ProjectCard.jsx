@@ -74,9 +74,9 @@ export default function ProjectCard({ project, index, dark }) {
           )}
           {project.live && (
             <a href={project.live} target="_blank" rel="noopener noreferrer"
-              aria-label="Live Demo" className={`${linkBase} ${linkColor}`}>
+              aria-label="Live" className={`${linkBase} ${linkColor}`}>
               <FiExternalLink size={13} />
-              <span>Live</span>
+              <span>{project.category === 'Mobile Apps' ? 'Live Mobile' : 'Live Website'}</span>
             </a>
           )}
           {/* Detail — selalu tampil karena semua project punya slug */}
