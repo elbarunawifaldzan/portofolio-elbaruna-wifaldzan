@@ -8,7 +8,7 @@ export const projects = [
     slug: 'seameo-ceccep-event',
     name: 'SEAMEO CECCEP Event',
     category: 'Web Apps',
-    description: 'Platform manajemen event untuk SEAMEO CECCEP dengan fitur registrasi, jadwal, dan notifikasi.',
+    description: '',
     stack: ['React', 'Laravel', 'MySQL', 'Tailwind CSS'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
