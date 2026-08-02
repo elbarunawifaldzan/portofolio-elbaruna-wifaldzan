@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { FiGithub, FiExternalLink, FiInfo } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiGithub, FiExternalLink, FiArrowRight } from 'react-icons/fi'
 
 export default function ProjectCard({ project, index, dark }) {
   const cardBg    = dark ? 'bg-[#0a0a0a] border-white/[0.07]' : 'bg-[#f5f5f5] border-black/[0.07]'
@@ -62,7 +63,7 @@ export default function ProjectCard({ project, index, dark }) {
           ))}
         </div>
 
-        {/* Links — always visible at bottom */}
+        {/* Links */}
         <div className={`flex items-center gap-4 pt-4 border-t mt-auto ${divider}`}>
           {project.github && (
             <a href={project.github} target="_blank" rel="noopener noreferrer"
@@ -78,17 +79,15 @@ export default function ProjectCard({ project, index, dark }) {
               <span>Live</span>
             </a>
           )}
-          {project.detail && (
-            <a href={project.detail} target="_blank" rel="noopener noreferrer"
-              aria-label="Detail" className={`${linkBase} ${linkColor}`}>
-              <FiInfo size={13} />
-              <span>Detail</span>
-            </a>
-          )}
-          {/* If no links at all */}
-          {!project.github && !project.live && !project.detail && (
-            <span className={`text-[10px] tracking-widest uppercase ${desc}`}>Coming Soon</span>
-          )}
+          {/* Detail — selalu tampil karena semua project punya slug */}
+          <Link
+            to={`/projects/${project.slug}`}
+            aria-label="Detail"
+            className={`${linkBase} ${linkColor} ml-auto`}
+          >
+            <span>Detail</span>
+            <FiArrowRight size={13} />
+          </Link>
         </div>
       </div>
     </motion.div>
