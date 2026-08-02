@@ -15,7 +15,6 @@ function Lightbox({ images, startIndex, onClose }) {
   const prev = () => setIdx((i) => (i - 1 + images.length) % images.length)
   const next = () => setIdx((i) => (i + 1) % images.length)
 
-  // keyboard navigation
   const handleKey = (e) => {
     if (e.key === 'ArrowLeft')  prev()
     if (e.key === 'ArrowRight') next()
@@ -28,7 +27,7 @@ function Lightbox({ images, startIndex, onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/92 backdrop-blur-sm"
       onClick={onClose}
       onKeyDown={handleKey}
       tabIndex={0}
@@ -40,13 +39,13 @@ function Lightbox({ images, startIndex, onClose }) {
       <button
         onClick={onClose}
         className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-        aria-label="Close"
+        aria-label="Tutup"
       >
         <FiX size={18} />
       </button>
 
       {/* Counter */}
-      <p className="absolute top-6 left-1/2 -translate-x-1/2 text-[11px] font-semibold tracking-widest uppercase text-white/50">
+      <p className="absolute top-6 left-1/2 -translate-x-1/2 text-[11px] font-semibold tracking-widest uppercase text-white/40">
         {idx + 1} / {images.length}
       </p>
 
@@ -55,19 +54,18 @@ function Lightbox({ images, startIndex, onClose }) {
         <button
           onClick={(e) => { e.stopPropagation(); prev() }}
           className="absolute left-4 md:left-8 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-          aria-label="Previous image"
+          aria-label="Sebelumnya"
         >
           <FiChevronLeft size={20} />
         </button>
       )}
 
-      {/* Image */}
+      {/* Main image */}
       <motion.div
         key={idx}
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.96 }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.18 }}
         className="max-w-5xl max-h-[80vh] w-full mx-16 md:mx-24"
         onClick={(e) => e.stopPropagation()}
       >
@@ -83,23 +81,23 @@ function Lightbox({ images, startIndex, onClose }) {
         <button
           onClick={(e) => { e.stopPropagation(); next() }}
           className="absolute right-4 md:right-8 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-          aria-label="Next image"
+          aria-label="Berikutnya"
         >
           <FiChevronRight size={20} />
         </button>
       )}
 
-      {/* Thumbnail strip */}
+      {/* Strip bawah */}
       {images.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-[90vw] px-2">
           {images.map((src, i) => (
             <button
               key={i}
               onClick={(e) => { e.stopPropagation(); setIdx(i) }}
-              className={`w-12 h-8 rounded overflow-hidden border-2 transition-all duration-200 ${
+              className={`shrink-0 w-14 h-9 rounded-md overflow-hidden border-2 transition-all duration-200 ${
                 i === idx ? 'border-white opacity-100' : 'border-white/20 opacity-40 hover:opacity-70'
               }`}
-              aria-label={`Go to image ${i + 1}`}
+              aria-label={`Gambar ${i + 1}`}
             >
               <img src={src} alt="" className="w-full h-full object-cover" />
             </button>
@@ -112,22 +110,21 @@ function Lightbox({ images, startIndex, onClose }) {
 
 // ── Main page ─────────────────────────────────────────────
 export default function ProjectDetail({ dark }) {
-  const { slug }              = useParams()
-  const project               = projects.find((p) => p.slug === slug)
-  const [lightboxIdx, setLightboxIdx] = useState(null) // null = tutup
+  const { slug } = useParams()
+  const project  = projects.find((p) => p.slug === slug)
 
-  const bg      = dark ? 'bg-black'              : 'bg-white'
-  const tc      = dark ? 'text-white'            : 'text-black'
-  const muted   = dark ? 'text-gray-500'         : 'text-gray-400'
-  const border  = dark ? 'border-white/[0.07]'   : 'border-black/[0.07]'
-  const cardBg  = dark ? 'bg-[#0a0a0a]'          : 'bg-[#f5f5f5]'
+  const bg      = dark ? 'bg-black'                : 'bg-white'
+  const tc      = dark ? 'text-white'              : 'text-black'
+  const muted   = dark ? 'text-gray-500'           : 'text-gray-400'
+  const border  = dark ? 'border-white/[0.07]'     : 'border-black/[0.07]'
+  const cardBg  = dark ? 'bg-[#0a0a0a]'            : 'bg-[#f5f5f5]'
   const techBg  = dark ? 'border-white/[0.08] text-gray-500' : 'border-black/[0.08] text-gray-400'
   const badge   = dark ? 'border-white/20 text-gray-400'     : 'border-black/20 text-gray-500'
   const linkBtn = dark
     ? 'border-white/10 text-gray-400 hover:border-white/40 hover:text-white'
     : 'border-black/10 text-gray-500 hover:border-black/40 hover:text-black'
   const dotColor = dark ? 'bg-white' : 'bg-black'
-  const divider  = dark ? 'bg-white/[0.07]'      : 'bg-black/[0.07]'
+  const divider  = dark ? 'bg-white/[0.07]' : 'bg-black/[0.07]'
 
   // 404
   if (!project) {
@@ -147,15 +144,30 @@ export default function ProjectDetail({ dark }) {
   }
 
   const { details } = project
-  const hasImages   = details.images && details.images.length > 0
+
+  // Kumpulkan semua gambar: thumbnail dulu, lalu images
+  const allImages = [
+    ...(project.thumbnail ? [project.thumbnail] : []),
+    ...(details.images || []),
+  ]
+  const hasImages = allImages.length > 0
+
+  // State gambar aktif & lightbox
+  const [activeImg,   setActiveImg]   = useState(allImages[0] ?? null)
+  const [lightboxIdx, setLightboxIdx] = useState(null)
+
+  const openLightbox = () => {
+    if (!activeImg) return
+    const i = allImages.indexOf(activeImg)
+    setLightboxIdx(i >= 0 ? i : 0)
+  }
 
   return (
     <>
-      {/* Lightbox */}
       <AnimatePresence>
         {lightboxIdx !== null && (
           <Lightbox
-            images={details.images}
+            images={allImages}
             startIndex={lightboxIdx}
             onClose={() => setLightboxIdx(null)}
           />
@@ -198,33 +210,70 @@ export default function ProjectDetail({ dark }) {
             </p>
           </motion.div>
 
-          {/* ── Thumbnail ── */}
+          {/* ── Image viewer: gambar besar + strip bawah ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className={`w-full aspect-video rounded-2xl overflow-hidden mb-16 border ${border} ${project.thumbnail ? 'cursor-zoom-in' : ''}`}
-            onClick={() => {
-              // klik thumbnail buka lightbox di index 0 jika ada images
-              if (project.thumbnail && hasImages) setLightboxIdx(0)
-            }}
+            className="mb-16"
           >
-            {project.thumbnail ? (
-              <img
-                src={project.thumbnail}
-                alt={project.name}
-                className={`w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02] ${dark ? '' : 'grayscale hover:grayscale-0'}`}
-              />
-            ) : (
-              <div className={`w-full h-full flex flex-col items-center justify-center gap-3 ${cardBg}`}>
-                <FiImage size={32} className={`${muted} opacity-30`} />
-                <p className={`text-[10px] font-semibold tracking-widest uppercase ${muted} opacity-40`}>
-                  Thumbnail belum tersedia
-                </p>
-                <p className={`text-[9px] tracking-wide ${muted} opacity-25`}>
-                  Taruh file di: public/img/projects/{project.slug}/thumbnail.jpg
-                </p>
+            {/* Gambar utama */}
+            <div
+              className={`w-full aspect-video rounded-2xl overflow-hidden border mb-3 ${border} ${activeImg ? 'cursor-zoom-in' : ''}`}
+              onClick={openLightbox}
+            >
+              {activeImg ? (
+                <motion.img
+                  key={activeImg}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.25 }}
+                  src={activeImg}
+                  alt={project.name}
+                  className={`w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500 ${dark ? '' : 'grayscale hover:grayscale-0'}`}
+                />
+              ) : (
+                <div className={`w-full h-full flex flex-col items-center justify-center gap-3 ${cardBg}`}>
+                  <FiImage size={32} className={`${muted} opacity-30`} />
+                  <p className={`text-[10px] font-semibold tracking-widest uppercase ${muted} opacity-40`}>
+                    Thumbnail belum tersedia
+                  </p>
+                  <p className={`text-[9px] tracking-wide ${muted} opacity-25`}>
+                    public/img/projects/{project.slug}/thumbnail.jpg
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Strip thumbnail horizontal di bawah */}
+            {allImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+                {allImages.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImg(src)}
+                    className={`shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                      activeImg === src
+                        ? dark ? 'border-white opacity-100' : 'border-black opacity-100'
+                        : dark ? 'border-white/10 opacity-45 hover:opacity-75' : 'border-black/10 opacity-45 hover:opacity-75'
+                    }`}
+                    aria-label={`Lihat gambar ${i + 1}`}
+                  >
+                    <img
+                      src={src}
+                      alt={`${project.name} ${i + 1}`}
+                      className={`w-full h-full object-cover ${dark ? '' : 'grayscale'}`}
+                    />
+                  </button>
+                ))}
               </div>
+            )}
+
+            {/* Hint kalau belum ada gambar */}
+            {!hasImages && (
+              <p className={`text-[10px] mt-2 ${muted} opacity-35`}>
+                Taruh gambar di <code className="font-mono">public/img/projects/{project.slug}/</code> lalu update <code className="font-mono">thumbnail</code> dan <code className="font-mono">images</code> di <code className="font-mono">projects.js</code>
+              </p>
             )}
           </motion.div>
 
@@ -271,66 +320,6 @@ export default function ProjectDetail({ dark }) {
                     </motion.li>
                   ))}
                 </ul>
-              </div>
-
-              {/* Gallery */}
-              <div className={`w-full h-px ${divider}`} />
-              <div>
-                <h2 className={`text-xs font-bold tracking-widest uppercase mb-5 ${muted}`}>
-                  Gallery
-                  {hasImages && (
-                    <span className={`ml-2 font-normal normal-case tracking-normal text-[10px] ${muted}`}>
-                      — klik gambar untuk memperbesar
-                    </span>
-                  )}
-                </h2>
-
-                {hasImages ? (
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {details.images.map((src, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: i * 0.07 }}
-                        className={`aspect-video rounded-xl overflow-hidden border cursor-zoom-in group relative ${border}`}
-                        onClick={() => setLightboxIdx(i)}
-                      >
-                        <img
-                          src={src}
-                          alt={`${project.name} screenshot ${i + 1}`}
-                          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${dark ? '' : 'grayscale group-hover:grayscale-0'}`}
-                        />
-                        {/* overlay hint */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/30">
-                          <FiImage size={20} className="text-white" />
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  /* Placeholder grid kalau belum ada gambar */
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {[0, 1, 2, 3].map((i) => (
-                      <div
-                        key={i}
-                        className={`aspect-video rounded-xl border flex flex-col items-center justify-center gap-2 ${border} ${cardBg}`}
-                      >
-                        <FiImage size={20} className={`${muted} opacity-20`} />
-                        <p className={`text-[9px] font-semibold tracking-widest uppercase ${muted} opacity-25`}>
-                          {String(i + 1).padStart(2, '0')}.jpg
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Petunjuk path file */}
-                {!hasImages && (
-                  <p className={`text-[10px] mt-3 ${muted} opacity-40`}>
-                    Taruh gambar di: <code className="font-mono">public/img/projects/{project.slug}/01.jpg</code>, <code className="font-mono">02.jpg</code>, dst — lalu update array <code className="font-mono">images</code> di <code className="font-mono">projects.js</code>
-                  </p>
-                )}
               </div>
             </motion.div>
 
@@ -410,9 +399,7 @@ export default function ProjectDetail({ dark }) {
                     <FiExternalLink size={11} />
                   </a>
                 ) : (
-                  <div
-                    className={`flex items-center justify-between w-full border rounded-xl px-4 py-3 text-xs font-semibold tracking-widest uppercase cursor-not-allowed opacity-40 ${linkBtn} border`}
-                  >
+                  <div className={`flex items-center justify-between w-full border rounded-xl px-4 py-3 text-xs font-semibold tracking-widest uppercase cursor-not-allowed opacity-40 ${linkBtn} border`}>
                     <span className="flex items-center gap-2">
                       <FiExternalLink size={14} />
                       {project.category === 'Mobile Apps' ? 'Live Mobile' : 'Live Website'}
@@ -443,6 +430,7 @@ export default function ProjectDetail({ dark }) {
               </div>
             </motion.div>
           </div>
+
         </div>
       </div>
     </>
