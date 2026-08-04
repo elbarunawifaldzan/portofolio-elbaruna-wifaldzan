@@ -60,6 +60,7 @@ export const projects = [
         'Absensi digital',
         'Forum diskusi per kelas',
       ],
+      video: 'https://www.youtube.com/embed/31RyYSr4pg0',
       images: [
         '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142244.jpg',
         '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142331.jpg',

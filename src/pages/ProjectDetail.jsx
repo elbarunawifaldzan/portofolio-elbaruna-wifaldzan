@@ -321,6 +321,25 @@ export default function ProjectDetail({ dark }) {
                   ))}
                 </ul>
               </div>
+
+              {/* Video */}
+              {details.video && (
+                <>
+                  <div className={`w-full h-px ${divider}`} />
+                  <div>
+                    <h2 className={`text-xs font-bold tracking-widest uppercase mb-5 ${muted}`}>Demo Video</h2>
+                    <div className={`w-full aspect-video rounded-2xl overflow-hidden border ${border}`}>
+                      <iframe
+                        src={details.video}
+                        title="Demo Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </motion.div>
 
             {/* Right — sidebar */}
