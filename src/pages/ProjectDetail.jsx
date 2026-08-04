@@ -328,12 +328,14 @@ export default function ProjectDetail({ dark }) {
                   <div className={`w-full h-px ${divider}`} />
                   <div>
                     <h2 className={`text-xs font-bold tracking-widest uppercase mb-5 ${muted}`}>Demo Video</h2>
-                    <div className={`w-full aspect-video rounded-2xl overflow-hidden border ${border}`}>
+                    <div className={`w-full aspect-video rounded-2xl overflow-hidden border ${border} bg-black`}>
                       <iframe
                         src={details.video}
-                        title="Demo Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        title={`${project.name} Demo Video`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
+                        loading="lazy"
                         className="w-full h-full"
                       />
                     </div>
