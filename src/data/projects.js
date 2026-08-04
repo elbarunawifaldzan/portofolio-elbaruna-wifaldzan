@@ -1,8 +1,3 @@
-// Cara menambah gambar:
-// 1. Taruh file gambar di: public/img/projects/[slug]/
-// 2. thumbnail  → ganti null dengan '/img/projects/[slug]/thumbnail.jpg'
-// 3. images     → tambahkan path ke array, misal: ['/img/projects/[slug]/01.jpg', ...]
-
 export const projects = [
   {
     slug: 'seameo-ceccep-event',
@@ -12,8 +7,7 @@ export const projects = [
     stack: ['React', 'Laravel', 'MySQL', 'Tailwind CSS'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    // ↓ Ganti null dengan path setelah taruh gambar di public/img/projects/seameo-ceccep-event/
-    thumbnail: null, // contoh: '/img/projects/seameo-ceccep-event/thumbnail.jpg'
+    thumbnail: '/img/projects/seameo-ceccep-event/thumbnail.jpg',
     details: {
       overview: 'SEAMEO CECCEP Event adalah platform manajemen event yang dibangun untuk SEAMEO CECCEP (Southeast Asian Ministers of Education Organization — Centre for Early Childhood Care Education and Parenting). Aplikasi ini membantu organisasi dalam mengelola berbagai event internasional mulai dari perencanaan hingga pelaporan.',
       role: 'Full Stack Web Developer',
@@ -28,12 +22,19 @@ export const projects = [
         'Export laporan ke PDF/Excel',
         'Manajemen kategori & sesi event',
       ],
-      // ↓ Tambahkan path gambar setelah taruh file di public/img/projects/seameo-ceccep-event/
-      images: [],
-      // contoh: images: [
-      //   '/img/projects/seameo-ceccep-event/01.jpg',
-      //   '/img/projects/seameo-ceccep-event/02.jpg',
-      // ],
+      images: [
+        '/img/projects/seameo-ceccep-event/screencapture-127-0-0-1-8000-2026-08-02-21_02_18.png',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 210801.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 210903.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 210950.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 211056.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 211123.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-02 211238.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-03 220934.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-03 221005.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-03 221022.jpg',
+        '/img/projects/seameo-ceccep-event/Screenshot 2026-08-03 221108.jpg',
+      ],
     },
   },
   {
@@ -44,7 +45,7 @@ export const projects = [
     stack: ['Laravel', 'Bootstrap', 'JavaScript'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    thumbnail: null, // '/img/projects/elearning-smkn1-cipeundeuy/thumbnail.jpg'
+    thumbnail: '/img/projects/elearning-smkn1-cipeundeuy/thumbnail.jpg',
     details: {
       overview: 'Platform e-learning yang dirancang khusus untuk SMKN 1 Cipeundeuy guna mendukung kegiatan belajar mengajar secara digital. Sistem ini memudahkan guru dalam mendistribusikan materi, tugas, dan ujian, serta memudahkan siswa dalam mengakses konten pembelajaran kapan saja dan di mana saja.',
       role: 'Full Stack Web Developer',
@@ -59,7 +60,22 @@ export const projects = [
         'Absensi digital',
         'Forum diskusi per kelas',
       ],
-      images: [],
+      images: [
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142244.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142331.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142357.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142451.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142511.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142533.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142636.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142659.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142742.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142829.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142859.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142919.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142941.jpg',
+        '/img/projects/elearning-smkn1-cipeundeuy/Screenshot 2026-08-04 142959.jpg',
+      ],
     },
   },
   {
@@ -70,7 +86,7 @@ export const projects = [
     stack: ['Kotlin', 'Face Recognition', 'Geofencing'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    thumbnail: null, // '/img/projects/sihadir/thumbnail.jpg'
+    thumbnail: '/img/projects/sihadir/thumbnail.png',
     details: {
       overview: 'Sihadir adalah aplikasi absensi mobile berbasis Android yang dibangun untuk petugas Puskesmas Cirata. Aplikasi ini mengintegrasikan Face Recognition untuk verifikasi identitas dan Geofencing untuk memvalidasi lokasi petugas saat melakukan presensi, sehingga mencegah kecurangan absensi.',
       role: 'Mobile Developer',
@@ -85,7 +101,25 @@ export const projects = [
         'Export laporan kehadiran',
         'Mode offline dengan sinkronisasi otomatis',
       ],
-      images: [],
+      images: [
+        '/img/projects/sihadir/Implementasi Halaman Login.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Splash Screen.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Home.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Absensi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman History.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Profile.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Monitoring Absensi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Rekapitulasi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Rekapitulasi Data Absensi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Daftar Petugas.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Detail Absensi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Detail Data Absensi.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Detail Data Absensi Petugas.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Detail Data Petugas.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Edit Data Petugas.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Tambah Data Absensi Petugas.jpg',
+        '/img/projects/sihadir/Implementasi Halaman Tambah Data Petugas.jpg',
+      ],
     },
   },
   {
@@ -96,7 +130,7 @@ export const projects = [
     stack: ['React Native', 'Node.js', 'MongoDB', 'Express.js'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    thumbnail: null, // '/img/projects/nutricheck/thumbnail.jpg'
+    thumbnail: null,
     details: {
       overview: 'NutriCheck adalah aplikasi mobile yang membantu pengguna memantau asupan nutrisi harian. Dengan database makanan yang lengkap, pengguna dapat dengan mudah mencari informasi nutrisi dari berbagai jenis makanan dan melacak konsumsi hariannya.',
       role: 'Full Stack Mobile Developer',
@@ -122,7 +156,7 @@ export const projects = [
     stack: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion'],
     github: 'https://github.com/elbarunawifaldzan/portofolio-elbaruna-wifaldzan',
     live: 'https://portofolio-elbaruna-wifaldzan.vercel.app',
-    thumbnail: null, // '/img/projects/portfolio-website/thumbnail.jpg'
+    thumbnail: null,
     details: {
       overview: 'Website portofolio pribadi yang dirancang dengan pendekatan minimalist monochrome. Menampilkan pengalaman, proyek, dan keahlian secara elegan dengan animasi scroll yang smooth menggunakan Framer Motion.',
       role: 'Designer & Developer',
@@ -149,7 +183,7 @@ export const projects = [
     stack: ['Laravel', 'MySQL', 'Bootstrap', 'Alpine.js'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    thumbnail: null, // '/img/projects/pos-apotek-abyan/thumbnail.jpg'
+    thumbnail: null,
     details: {
       overview: 'POS Apotek Abyan adalah sistem Point of Sale berbasis web yang dirancang khusus untuk kebutuhan apotek. Sistem ini mengelola transaksi penjualan obat, manajemen stok, data pelanggan, serta menghasilkan laporan keuangan secara otomatis.',
       role: 'Full Stack Web Developer',
@@ -176,7 +210,7 @@ export const projects = [
     stack: ['React Native', 'Firebase', 'Expo'],
     github: 'https://github.com/elbarunawifaldzan',
     live: null,
-    thumbnail: null, // '/img/projects/tracking-app/thumbnail.jpg'
+    thumbnail: null,
     details: {
       overview: 'Tracking App adalah aplikasi mobile untuk membantu pengguna memantau dan mencatat aktivitas harian mereka. Dengan tampilan yang bersih dan intuitif, pengguna dapat menetapkan target harian, melacak progres, dan menerima laporan mingguan.',
       role: 'Mobile Developer',
