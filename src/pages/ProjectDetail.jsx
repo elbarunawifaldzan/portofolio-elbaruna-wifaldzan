@@ -230,7 +230,7 @@ export default function ProjectDetail({ dark }) {
                   transition={{ duration: 0.25 }}
                   src={activeImg}
                   alt={project.name}
-                  className={`w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500 ${dark ? '' : 'grayscale hover:grayscale-0'}`}
+                  className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
                 />
               ) : (
                 <div className={`w-full h-full flex flex-col items-center justify-center gap-3 ${cardBg}`}>
@@ -262,7 +262,7 @@ export default function ProjectDetail({ dark }) {
                     <img
                       src={src}
                       alt={`${project.name} ${i + 1}`}
-                      className={`w-full h-full object-cover ${dark ? '' : 'grayscale'}`}
+                      className="w-full h-full object-cover"
                     />
                   </button>
                 ))}

@@ -26,8 +26,7 @@ export default function ProjectCard({ project, index, dark }) {
           <img
             src={project.thumbnail}
             alt={project.name}
-            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105
-              ${dark ? 'grayscale-0' : 'grayscale'}`}
+            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105`}
           />
         ) : (
           <div className={`w-full h-full flex items-center justify-center ${dark ? 'bg-[#0d0d0d]' : 'bg-[#e8e8e8]'}`}>
