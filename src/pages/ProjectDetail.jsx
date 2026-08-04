@@ -328,17 +328,38 @@ export default function ProjectDetail({ dark }) {
                   <div className={`w-full h-px ${divider}`} />
                   <div>
                     <h2 className={`text-xs font-bold tracking-widest uppercase mb-5 ${muted}`}>Demo Video</h2>
-                    <div className={`w-full aspect-video rounded-2xl overflow-hidden border ${border} bg-black`}>
-                      <iframe
-                        src={details.video}
-                        title={`${project.name} Demo Video`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                        loading="lazy"
-                        className="w-full h-full"
+                    {/* Klik thumbnail YouTube → buka di tab baru (lebih reliable daripada embed) */}
+                    <a
+                      href={details.video.replace('embed/', 'watch?v=').replace('?rel=0&modestbranding=1', '')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group relative w-full aspect-video rounded-2xl overflow-hidden border flex items-center justify-center ${border} bg-black block`}
+                    >
+                      {/* Thumbnail YouTube dari ID video */}
+                      <img
+                        src={`https://img.youtube.com/vi/${details.video.match(/embed\/([^?]+)/)?.[1]}/maxresdefault.jpg`}
+                        alt="Demo Video Thumbnail"
+                        className="w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity duration-300"
+                        onError={(e) => {
+                          // fallback ke hqdefault jika maxresdefault tidak ada
+                          e.target.src = `https://img.youtube.com/vi/${details.video.match(/embed\/([^?]+)/)?.[1]}/hqdefault.jpg`
+                        }}
                       />
-                    </div>
+                      {/* Play button overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-200">
+                          <svg className="w-6 h-6 text-black ml-1" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      {/* Label */}
+                      <div className="absolute bottom-4 left-4">
+                        <span className="text-[10px] font-semibold tracking-widest uppercase text-white/70 bg-black/50 px-3 py-1 rounded-full">
+                          Watch on YouTube
+                        </span>
+                      </div>
+                    </a>
                   </div>
                 </>
               )}
